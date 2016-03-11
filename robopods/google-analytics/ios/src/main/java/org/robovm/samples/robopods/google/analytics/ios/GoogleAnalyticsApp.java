@@ -19,10 +19,12 @@
 package org.robovm.samples.robopods.google.analytics.ios;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
+import org.robovm.apple.foundation.NSErrorException;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIApplicationDelegateAdapter;
 import org.robovm.apple.uikit.UIApplicationLaunchOptions;
 import org.robovm.apple.uikit.UIColor;
+import org.robovm.pods.google.GGLContext;
 import org.robovm.pods.google.analytics.GAI;
 import org.robovm.pods.google.analytics.GAILogLevel;
 
@@ -31,6 +33,16 @@ public class GoogleAnalyticsApp extends UIApplicationDelegateAdapter {
 
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
+
+
+        System.err.println("Execute: GGLContext.getSharedInstance().configure()");
+        try {
+            GGLContext.getSharedInstance().configure();
+        } catch (NSErrorException e) {
+            System.err.println("Error configuring the Google context: " + e.getError());
+        }
+        System.err.println("After: GGLContext.getSharedInstance().configure()");
+
         // Optional: configure GAI options.
         GAI gai = GAI.getSharedInstance();
         gai.enableCrashReporting();
